@@ -1,3 +1,5 @@
+import { createLocationUpdatePacket } from '../../utils/notification/game.notification.js';
+
 class Game {
   constructor(id) {
     this.id = id;
@@ -5,12 +7,8 @@ class Game {
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
-  addUser(user) {
+  addGameUser(user) {
     this.users.push(user);
-
-    if (this.users.length === 1) {
-      this.startGame();
-    }
   }
 
   getUser(userId) {
@@ -27,6 +25,19 @@ class Game {
 
   startGame() {
     this.state = 'inProgress';
+  }
+
+  getOthersLocation(userId) {
+    const locationData = this.users
+      .filter((user) => user.id !== userId)
+      .map((user) => {
+        return { id: user.id, playerId: user.playerId, x: user.x, y: user.y };
+      });
+    return createLocationUpdatePacket(locationData);
+  }
+
+  getAllUserIds() {
+    return this.users.map((user) => user.id);
   }
 }
 

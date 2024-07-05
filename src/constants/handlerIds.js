@@ -2,6 +2,5 @@ export const RESPONSE_SUCCESS_CODE = 0;
 
 export const HANDLER_IDS = {
   INITIAL: 0,
-  JOIN_GAME: 5,
-  LOCATION_UPDDATE: 10,
+  LOCATION_UPDATE: 2,
 };

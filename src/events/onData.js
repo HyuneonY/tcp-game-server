@@ -2,8 +2,7 @@ import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js';
-import { getUserById } from '../session/user.session.js';
-import { handleError } from '../utils/error/errorHandler.js';
+import { handlerError } from '../utils/error/errorHandler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 
@@ -32,7 +31,7 @@ export const onData = (socket) => async (data) => {
           case PACKET_TYPE.PING:
             break;
           case PACKET_TYPE.NORMAL:
-            const { handlerId, payload, userId } = packetParser(packet);
+            const { handlerId, userId, payload } = packetParser(packet);
 
             const handler = getHandlerById(handlerId);
             await handler({
@@ -42,7 +41,7 @@ export const onData = (socket) => async (data) => {
             });
         }
       } catch (error) {
-        handleError(socket, error);
+        handlerError(socket, error);
       }
     } else {
       // 아직 전체 패킷이 도착하지 않음
