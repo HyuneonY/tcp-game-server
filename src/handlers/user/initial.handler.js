@@ -6,9 +6,8 @@ import { getGameSession } from '../../session/game.session.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    console.log('######', payload.playerId);
     let { deviceId, playerId, latency } = payload;
-    console.log(playerId);
+
     const user = addUser(socket, deviceId, playerId, latency);
     const gameSession = getGameSession();
     gameSession.addGameUser(user);
